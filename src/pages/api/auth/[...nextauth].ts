@@ -1,8 +1,8 @@
+import { scopes, spotifyApi } from '@/services/spotify'
+import { ExtendedSession, ExtendedToken, TokenError } from '@/types'
+import { CallbacksOptions } from 'next-auth'
 import NextAuth from 'next-auth/next'
 import SpotifyProvider from 'next-auth/providers/spotify'
-import { scopes, spotifyApi } from '@/services/spotify'
-import { CallbacksOptions } from 'next-auth'
-import { ExtendedToken, TokenError } from '@/types'
 
 const refreshAccessToken = async (token: ExtendedToken): Promise<ExtendedToken> => {
   try {
