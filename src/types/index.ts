@@ -17,3 +17,11 @@ export interface ExtendedSession extends Session {
   accessToken: ExtendedToken['accessToken']
   error: ExtendedToken['error']
 }
+
+export interface PlaylistContextState {
+  playlists: SpotifyApi.PlaylistObjectSimplified[]
+}
+
+export interface IPlaylistContext {
+  playlistContextState: PlaylistContextState
+}
