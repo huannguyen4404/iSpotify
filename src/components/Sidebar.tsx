@@ -1,3 +1,5 @@
+import { usePlaylistContext } from '@/contexts/PlaylistContext'
+import { useSpotify } from '@/hooks/useSpotify'
 import {
   BuildingLibraryIcon,
   HeartIcon,
@@ -7,8 +9,6 @@ import {
   RssIcon,
 } from '@heroicons/react/24/outline'
 import { IconButton } from './IconButton'
-import { usePlaylistContext } from '@/contexts/PlaylistContext'
-import { useSpotify } from '@/hooks/useSpotify'
 
 const Divider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
