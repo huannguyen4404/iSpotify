@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { Songs } from './Songs'
 
 const colors = [
   'from-indigo-500',
@@ -72,6 +73,10 @@ export function Center(props: CenterProps) {
           </>
         )}
       </section>
+
+      <div>
+        <Songs />
+      </div>
     </div>
   )
 }
