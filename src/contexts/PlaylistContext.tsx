@@ -5,10 +5,13 @@ import { ReactNode, createContext, useContext, useEffect, useState } from 'react
 
 const defaultPlaylistContextState: PlaylistContextState = {
   playlists: [],
+  selectedPlaylistId: null,
+  selectedPlaylist: null,
 }
 
 export const PlaylistContext = createContext<IPlaylistContext>({
   playlistContextState: defaultPlaylistContextState,
+  updatePlaylistContextState: () => {},
 })
 
 export const usePlaylistContext = () => useContext(PlaylistContext)
@@ -18,13 +21,17 @@ const PlaylistContextProvider = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession()
   const [playlistContextState, setPlaylistContextState] = useState(defaultPlaylistContextState)
 
+  const updatePlaylistContextState = (updatedObj: Partial<PlaylistContextState>) => {
+    setPlaylistContextState((previosPlaylistContextState) => ({
+      ...previosPlaylistContextState,
+      ...updatedObj,
+    }))
+  }
+
   useEffect(() => {
     const getUserPlaylists = async () => {
       const userPlaylistResp = await spotifyApi.getUserPlaylists()
-      console.log('userPlaylistResp', userPlaylistResp)
-      setPlaylistContextState({
-        playlists: userPlaylistResp.body.items,
-      })
+      updatePlaylistContextState({ playlists: userPlaylistResp.body.items })
     }
 
     if (spotifyApi.getAccessToken()) {
@@ -34,6 +41,7 @@ const PlaylistContextProvider = ({ children }: { children: ReactNode }) => {
 
   const playlistCxtProviderData = {
     playlistContextState,
+    updatePlaylistContextState,
   }
 
   return (
