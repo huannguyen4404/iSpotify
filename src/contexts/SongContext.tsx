@@ -14,6 +14,7 @@ const defaultSongContextState: SongContextState = {
 
 export const SongContext = createContext<ISongContext>({
   songContextState: defaultSongContextState,
+  dispatchSongAction: () => {},
 })
 
 export const useSongContext = () => useContext(SongContext)
@@ -45,8 +46,30 @@ const SongContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [spotifyApi, session])
 
+  useEffect(() => {
+    const getCurrentPlayingSong = async () => {
+      const songInfo = await spotifyApi.getMyCurrentPlayingTrack()
+
+      if (!songInfo.body) return
+
+      dispatchSongAction({
+        type: SongReducerActionType.SetCurrentPlayingSong,
+        payload: {
+          selectedSongId: songInfo.body.item?.id,
+          selectedSong: songInfo.body.item as SpotifyApi.TrackObjectFull,
+          isPlaying: songInfo.body.is_playing,
+        },
+      })
+    }
+
+    if (spotifyApi.getAccessToken()) {
+      getCurrentPlayingSong()
+    }
+  }, [spotifyApi, session])
+
   const songContextProviderData = {
-    songContextState: defaultSongContextState,
+    songContextState,
+    dispatchSongAction,
   }
 
   return <SongContext.Provider value={songContextProviderData}>{children}</SongContext.Provider>

@@ -1,6 +1,9 @@
 import { SongContextState, SongReducerAction, SongReducerActionType } from '@/types'
 
-export const songReducer = (state: SongContextState, action: SongReducerAction) => {
+export const songReducer = (
+  state: SongContextState,
+  action: SongReducerAction
+): SongContextState => {
   const { type, payload } = action
   switch (type) {
     case SongReducerActionType.SetDevice:
@@ -8,6 +11,22 @@ export const songReducer = (state: SongContextState, action: SongReducerAction) 
         ...state,
         deviceId: payload.deviceId,
         volume: payload.volume,
+      }
+
+    case SongReducerActionType.ToggleIsPlaying:
+      return {
+        ...state,
+        isPlaying: payload,
+      }
+
+    case SongReducerActionType.SetCurrentPlayingSong:
+      const { isPlaying, selectedSong, selectedSongId } = payload
+
+      return {
+        ...state,
+        isPlaying,
+        selectedSong,
+        selectedSongId,
       }
 
     default:
