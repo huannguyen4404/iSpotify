@@ -65,17 +65,14 @@ export function Player(props: PlayerProps) {
     })
   }
 
-  const debouncedAdjustVol = useDebouncedCallback((volume: number) => {
-    spotifyApi.setVolume(volume)
-  }, 1000)
+  // const debouncedAdjustVolume = useDebouncedCallback((volume: number) => {
+  //   spotifyApi.setVolume(volume)
+  // }, 500)
 
   const handleVolChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const vol = Number(event.target.value)
-
     if (!deviceId) return
-
-    debouncedAdjustVol(vol)
-
+    // debouncedAdjustVolume(vol)
     dispatchSongAction({
       type: SongReducerActionType.SetVolume,
       payload: vol,
