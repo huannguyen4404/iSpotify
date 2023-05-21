@@ -6,7 +6,7 @@ import {
   PlayIcon,
   ArrowPathRoundedSquareIcon,
   SpeakerWaveIcon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/solid'
 
 export interface PlayerProps {}
 
