@@ -1,4 +1,4 @@
-import { Center, Sidebar } from '@/components'
+import { Center, Player, Sidebar } from '@/components'
 import PlaylistContextProvider from '@/contexts/PlaylistContext'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
@@ -19,6 +19,10 @@ export default function Home() {
           <Sidebar />
           <Center />
         </main>
+
+        <div className="sticky bottom-0 text-white">
+          <Player />
+        </div>
       </PlaylistContextProvider>
     </div>
   )
