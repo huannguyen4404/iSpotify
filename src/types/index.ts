@@ -47,6 +47,7 @@ export enum SongReducerActionType {
   SetDevice = 'SetDevice',
   ToggleIsPlaying = 'ToggleIsPlaying',
   SetCurrentPlayingSong = 'SetCurrentPlayingSong',
+  SetVolume = 'SetVolume',
 }
 
 export type SongReducerAction =
@@ -61,4 +62,8 @@ export type SongReducerAction =
   | {
       type: SongReducerActionType.SetCurrentPlayingSong
       payload: Pick<SongContextState, 'selectedSong' | 'selectedSongId' | 'isPlaying'>
+    }
+  | {
+      type: SongReducerActionType.SetVolume
+      payload: number
     }

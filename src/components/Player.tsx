@@ -11,6 +11,8 @@ import {
   SpeakerWaveIcon,
 } from '@heroicons/react/24/solid'
 import Image from 'next/image'
+import { ChangeEventHandler } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
 export interface PlayerProps {}
 
@@ -18,7 +20,7 @@ export function Player(props: PlayerProps) {
   const spotifyApi = useSpotify()
 
   const {
-    songContextState: { isPlaying, selectedSong, deviceId },
+    songContextState: { isPlaying, selectedSong, deviceId, volume },
     dispatchSongAction,
   } = useSongContext()
 
@@ -63,6 +65,23 @@ export function Player(props: PlayerProps) {
     })
   }
 
+  const debouncedAdjustVol = useDebouncedCallback((volume: number) => {
+    spotifyApi.setVolume(volume)
+  }, 1000)
+
+  const handleVolChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const vol = Number(event.target.value)
+
+    if (!deviceId) return
+
+    debouncedAdjustVol(vol)
+
+    dispatchSongAction({
+      type: SongReducerActionType.SetVolume,
+      payload: vol,
+    })
+  }
+
   return (
     <div className="h-24 bg-gradient-to-b from-black to-gray-900 grid grid-cols-3 text-xs md:text-base px-2 md:px-8">
       <div className="flex items-center space-x-4">
@@ -94,7 +113,14 @@ export function Player(props: PlayerProps) {
 
       <div className="flex justify-end items-center pr-5 space-x-3 md:space-x-4">
         <SpeakerWaveIcon className="icon-playback" />
-        <input type="range" min={0} max={100} className="w-20 md:w-auto" />
+        <input
+          type="range"
+          min={0}
+          max={100}
+          className="w-20 md:w-auto"
+          value={volume}
+          onChange={handleVolChange}
+        />
       </div>
     </div>
   )
